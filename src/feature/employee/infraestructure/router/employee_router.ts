@@ -4,16 +4,17 @@ import {
   getEmployeeByUuidController,
   getAllEmployeesController
 } from "../dependence";
+import { authMiddleware } from "../../../auth/infraestructure/middleware/authMiddleware";
 
 const router = Router();
 
 // Crear
-router.post("/", (req, res) => createEmployeeController.handle(req, res));
+router.post("/",authMiddleware, (req, res) => createEmployeeController.handle(req, res));
 
 // Obtener todos
-router.get("/", (req, res) => getAllEmployeesController.handle(req, res));
+router.get("/",authMiddleware, (req, res) => getAllEmployeesController.handle(req, res));
 
 // Obtener por UUID
-router.get("/:uuid", (req, res) => getEmployeeByUuidController.handle(req, res));
+router.get("/:uuid",authMiddleware, (req, res) => getEmployeeByUuidController.handle(req, res));
 
 export default router;

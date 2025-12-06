@@ -3,12 +3,11 @@ import {
   registerUserController,
   loginUserController
 } from "../dependence";
-import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
 
 // Solo admin puede crear usuarios
-router.post("/register", authMiddleware, (req, res) =>
+router.post("/register", (req, res) =>
   registerUserController.handle(req, res)
 );
 

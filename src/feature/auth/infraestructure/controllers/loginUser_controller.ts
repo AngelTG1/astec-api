@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { LoginUserUseCase } from "../../application/usecases/loginUser_usecase";
+import { plainToInstance } from "class-transformer";
+import { validate } from "class-validator";
+import { LoginDTO } from "../validatorDTO/loginDTO";
 
 export class LoginUserController {
 
@@ -7,7 +10,12 @@ export class LoginUserController {
 
   async handle(req: Request, res: Response) {
     try {
-      const { correo, password } = req.body;
+      const dto = plainToInstance(LoginDTO, req.body);
+      const errors = await validate(dto);
+
+      if (errors.length > 0) return res.status(400).json({ errors });
+
+      const { correo, password } = dto;
 
       const { user, token } = await this.usecase.execute(correo, password);
 

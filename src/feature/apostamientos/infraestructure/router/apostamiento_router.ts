@@ -5,16 +5,18 @@ import {
   getApostamientoByUuidController,
   getApostamientosByClientController
 } from "../dependence";
+import { authMiddleware } from "../../../auth/infraestructure/middleware/authMiddleware";
+
 
 const router = Router();
 
-router.post("/", (req, res) => createApostamientoController.handle(req, res));
+router.post("/",authMiddleware, (req, res) => createApostamientoController.handle(req, res));
 
-router.get("/", (req, res) => getAllApostamientosController.handle(req, res));
+router.get("/",authMiddleware, (req, res) => getAllApostamientosController.handle(req, res));
 
-router.get("/:uuid", (req, res) => getApostamientoByUuidController.handle(req, res));
+router.get("/:uuid",authMiddleware, (req, res) => getApostamientoByUuidController.handle(req, res));
 
-router.get("/cliente/:clientUuid", (req, res) =>
+router.get("/cliente/:clientUuid",authMiddleware, (req, res) =>
   getApostamientosByClientController.handle(req, res)
 );
 
