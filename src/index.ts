@@ -7,6 +7,7 @@ import clientRouter from './feature/clients/infraestructure/router/client_router
 import employeeRouter from "./feature/employee/infraestructure/router/employee_router";
 import apostamientoRouter from "./feature/apostamientos/infraestructure/router/apostamiento_router";
 import assignmentRouter from "./feature/assignments/infraestructure/router/assignment_router";
+import activityRouter from "./feature/activities/infraestructure/router/activity_router";
 import authRouter from "./feature/auth/infraestructure/router/auth_router";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use("/clients", clientRouter);
 app.use("/employees", employeeRouter);
 app.use("/apostamientos", apostamientoRouter);
 app.use("/assignments", assignmentRouter);
+app.use("/activities", activityRouter);
 app.use("/auth", authRouter);
 
 const PORT = process.env.PORT || 3000;
