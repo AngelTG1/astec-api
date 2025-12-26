@@ -11,6 +11,8 @@ import {
   ValidateIf
 } from "class-validator";
 
+import { IsTodayOrFuture } from "./validators/isTodayOrFuture";
+
 export class ActivityDTO {
 
   @IsString()
@@ -21,7 +23,8 @@ export class ActivityDTO {
   @IsNotEmpty()
   empleadoUuid!: string;
 
-  @IsDateString()
+  @IsDateString({}, { message: "fecha debe tener formato YYYY-MM-DD" })
+  @IsTodayOrFuture({ message: "Solo se permiten fechas actuales o futuras" })
   fecha!: string;
 
   @IsIn(["diurno", "nocturno", "descanso"])

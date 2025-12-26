@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsEmail, IsOptional } from "class-validator";
+import { IsNotEmpty, IsString, IsEmail, IsOptional, Matches } from "class-validator";
+import { IsRfc } from "../../../shared/validators/isRfc";
 
 export class ClientDTO {
   @IsNotEmpty()
@@ -7,6 +8,7 @@ export class ClientDTO {
 
   @IsNotEmpty()
   @IsString()
+  @IsRfc()
   rfc!: string;
 
   @IsNotEmpty()
@@ -17,6 +19,7 @@ export class ClientDTO {
   correo!: string;
 
   @IsNotEmpty()
+  @Matches(/^\d{5}$/, { message: "codigoPostal debe tener 5 digitos numericos" })
   codigoPostal!: string;
 
   @IsNotEmpty()

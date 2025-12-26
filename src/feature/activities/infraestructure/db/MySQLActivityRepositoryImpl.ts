@@ -7,6 +7,21 @@ export class MySQLActivityRepositoryImpl implements ActivityRepository {
 
   async create(activity: Activity): Promise<Activity> {
 
+    // Validar que la fecha no sea pasada
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let activityDate = parseDateOnly(activity.fecha);
+    if (!activityDate) {
+      activityDate = new Date(activity.fecha);
+      activityDate.setHours(0, 0, 0, 0);
+    }
+
+    if (activityDate < today) {
+      throw new Error("No se pueden registrar actividades con fechas pasadas");
+    }
+
+
     // Validar cliente
     const [clientRows]: any = await pool.query(
       "SELECT uuid FROM clients WHERE uuid = ?",
@@ -172,4 +187,25 @@ export class MySQLActivityRepositoryImpl implements ActivityRepository {
 
     return rows as AttendanceWithClient[];
   }
+}
+
+function parseDateOnly(value: string): Date | null {
+  const parts = value.split("-");
+  if (parts.length === 3) {
+    const year = Number(parts[0]);
+    const month = Number(parts[1]);
+    const day = Number(parts[2]);
+
+    if (
+      Number.isInteger(year) &&
+      Number.isInteger(month) &&
+      Number.isInteger(day)
+    ) {
+      const local = new Date(year, month - 1, day);
+      local.setHours(0, 0, 0, 0);
+      return local;
+    }
+  }
+
+  return null;
 }

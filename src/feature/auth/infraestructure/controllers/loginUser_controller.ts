@@ -18,11 +18,19 @@ export class LoginUserController {
       const { correo, password } = dto;
 
       const { user, token } = await this.usecase.execute(correo, password);
+      const safeUser = {
+        id: user.id,
+        uuid: user.uuid,
+        nombre: user.nombre,
+        apellidos: user.apellidos,
+        correo: user.correo,
+        rol: user.rol
+      };
 
       res.json({
         message: "Login exitoso",
         token,
-        user
+        user: safeUser
       });
 
     } catch (error: any) {

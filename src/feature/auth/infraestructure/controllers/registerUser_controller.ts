@@ -11,20 +11,29 @@ export class RegisterUserController {
 
   async handle(req: Request, res: Response) {
     try {
-      const dto = plainToInstance(UserDTO, req.body);
+      const payload = { ...req.body, rol: req.body.rol ?? "supervisor" };
+      const dto = plainToInstance(UserDTO, payload);
       const errors = await validate(dto);
 
       if (errors.length > 0) return res.status(400).json({ errors });
 
       const uuid = new UserUUID().getValue();
 
-      const user = { uuid, ...req.body };
+      const user = { uuid, ...payload };
 
       const created = await this.usecase.execute(user);
+      const safeUser = {
+        id: created.id,
+        uuid: created.uuid,
+        nombre: created.nombre,
+        apellidos: created.apellidos,
+        correo: created.correo,
+        rol: created.rol
+      };
 
       res.status(201).json({
         message: "Usuario creado correctamente",
-        data: created
+        data: safeUser
       });
 
     } catch (error: any) {
