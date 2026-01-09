@@ -65,4 +65,42 @@ export class MySQLEmployeeRepositoryImpl implements EmployeeRepository {
 
         return rows as Employee[];
     }
+
+    async updateByUuid(uuid: string, data: Partial<Employee>): Promise<Employee> {
+        const updateData: any = {};
+
+        if (data.asignacionUuid !== undefined) updateData.asignacionUuid = data.asignacionUuid;
+        if (data.statusAsignacion !== undefined) updateData.statusAsignacion = data.statusAsignacion;
+        if (data.fotografia !== undefined) updateData.fotografia = data.fotografia;
+        if (data.nombre !== undefined) updateData.nombre = data.nombre;
+        if (data.apellidoPaterno !== undefined) updateData.apellidoPaterno = data.apellidoPaterno;
+        if (data.apellidoMaterno !== undefined) updateData.apellidoMaterno = data.apellidoMaterno;
+        if (data.fechaNacimiento !== undefined) updateData.fechaNacimiento = data.fechaNacimiento;
+        if (data.telefonoPersonal !== undefined) updateData.telefonoPersonal = data.telefonoPersonal;
+        if (data.telefonoFamiliar !== undefined) updateData.telefonoFamiliar = data.telefonoFamiliar;
+        if (data.domicilio !== undefined) updateData.domicilio = data.domicilio;
+        if (data.ine !== undefined) updateData.ine = data.ine;
+        if (data.rfc !== undefined) updateData.rfc = data.rfc;
+        if (data.curp !== undefined) updateData.curp = data.curp;
+
+        if (Object.keys(updateData).length === 0) {
+            throw new Error("No hay campos para actualizar");
+        }
+
+        const [result]: any = await pool.query(
+            "UPDATE employees SET ? WHERE uuid = ?",
+            [updateData, uuid]
+        );
+
+        if (result.affectedRows === 0) {
+            throw new Error("Empleado no encontrado");
+        }
+
+        const updated = await this.findByUUID(uuid);
+        if (!updated) {
+            throw new Error("Empleado no encontrado");
+        }
+
+        return updated;
+    }
 }

@@ -6,5 +6,6 @@ export interface AssignmentRepository {
   findByUUID(uuid: string): Promise<Assignment | null>;
   findByApostamiento(apostamientoUuid: string): Promise<Assignment[]>;
   findByEmpleado(empleadoUuid: string): Promise<Assignment[]>;
+  updateByUuid(uuid: string, data: Partial<Assignment>): Promise<Assignment>;
 
 }

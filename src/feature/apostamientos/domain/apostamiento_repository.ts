@@ -5,4 +5,5 @@ export interface ApostamientoRepository {
   findByUUID(uuid: string): Promise<Apostamiento | null>;
   findByClient(clientUuid: string): Promise<Apostamiento[]>;
   findAll(): Promise<Apostamiento[]>;
+  updateByUuid(uuid: string, data: Partial<Apostamiento>): Promise<Apostamiento>;
 }

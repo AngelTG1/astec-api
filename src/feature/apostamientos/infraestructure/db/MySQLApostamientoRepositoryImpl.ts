@@ -65,4 +65,50 @@ export class MySQLApostamientoRepositoryImpl implements ApostamientoRepository {
         );
         return rows as Apostamiento[];
     }
+
+    async updateByUuid(uuid: string, data: Partial<Apostamiento>): Promise<Apostamiento> {
+        const updateData: any = {};
+
+        if (data.clientUuid !== undefined) {
+            const [clientRows]: any = await pool.query(
+                "SELECT uuid FROM clients WHERE uuid = ?",
+                [data.clientUuid]
+            );
+
+            if (clientRows.length === 0) {
+                throw new Error("El cliente no existe. Verifica el clientUuid.");
+            }
+
+            updateData.clientUuid = data.clientUuid;
+        }
+
+        if (data.numeroContrato !== undefined) updateData.numeroContrato = data.numeroContrato;
+        if (data.fechaInicio !== undefined) updateData.fechaInicio = data.fechaInicio;
+        if (data.fechaFinal !== undefined) updateData.fechaFinal = data.fechaFinal;
+        if (data.tipoServicio !== undefined) updateData.tipoServicio = data.tipoServicio;
+        if (data.precioMensual !== undefined) updateData.precioMensual = data.precioMensual;
+        if (data.ubicacionServicio !== undefined) updateData.ubicacionServicio = data.ubicacionServicio;
+        if (data.descripcionContrato !== undefined) updateData.descripcionContrato = data.descripcionContrato;
+        if (data.observaciones !== undefined) updateData.observaciones = data.observaciones ?? null;
+
+        if (Object.keys(updateData).length === 0) {
+            throw new Error("No hay campos para actualizar");
+        }
+
+        const [result]: any = await pool.query(
+            "UPDATE apostamientos SET ? WHERE uuid = ?",
+            [updateData, uuid]
+        );
+
+        if (result.affectedRows === 0) {
+            throw new Error("Apostamiento no encontrado");
+        }
+
+        const updated = await this.findByUUID(uuid);
+        if (!updated) {
+            throw new Error("Apostamiento no encontrado");
+        }
+
+        return updated;
+    }
 }

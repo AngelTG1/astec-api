@@ -4,7 +4,8 @@ import {
   getAllAssignmentsController,
   getAssignmentByUuidController,
   getAssignmentsByApostamientoController,
-  getAssignmentsByEmpleadoController
+  getAssignmentsByEmpleadoController,
+  updateAssignmentController
 } from "../dependence";
 import { authMiddleware } from "../../../auth/infraestructure/middleware/authMiddleware";
 import { adminOnlyMiddleware } from "../../../auth/infraestructure/middleware/adminOnlyMiddleware";
@@ -29,6 +30,10 @@ router.get("/apostamiento/:uuid", authMiddleware, adminOnlyMiddleware, (req, res
 
 router.get("/empleado/:uuid", authMiddleware, adminOnlyMiddleware, (req, res) =>
   getAssignmentsByEmpleadoController.handle(req, res)
+);
+
+router.patch("/:uuid", authMiddleware, adminOnlyMiddleware, (req, res) =>
+  updateAssignmentController.handle(req, res)
 );
 
 export default router;

@@ -5,12 +5,14 @@ import { GetAllAssignmentsUseCase } from "../application/usecases/getAllAssignme
 import { GetAssignmentByUuidUseCase } from "../application/usecases/getAssignmentByUuid_usecase";
 import { GetAssignmentsByApostamientoUseCase } from "../application/usecases/getAssignmentsByApostamiento_usecase";
 import { GetAssignmentsByEmpleadoUseCase } from "../application/usecases/getAssignmentsByEmpleado_usecase";
+import { UpdateAssignmentUseCase } from "../application/usecases/updateAssignment_usecase";
 
 import { CreateAssignmentController } from "../infraestructure/controllers/createAssignment_controller";
 import { GetAllAssignmentsController } from "../infraestructure/controllers/getAllAssignments_controller";
 import { GetAssignmentByUuidController } from "../infraestructure/controllers/getAssignmentByUuid_controller";
 import { GetAssignmentsByApostamientoController } from "../infraestructure/controllers/getAssignmentsByApostamiento_controller";
 import { GetAssignmentsByEmpleadoController } from "../infraestructure/controllers/getAssignmentsByEmpleado_controller";
+import { UpdateAssignmentController } from "../infraestructure/controllers/updateAssignment_controller";
 
 const repo = new MySQLAssignmentRepositoryImpl();
 
@@ -32,3 +34,6 @@ export const getAssignmentsByEmpleadoController =
   new GetAssignmentsByEmpleadoController(
     new GetAssignmentsByEmpleadoUseCase(repo)
   );
+
+export const updateAssignmentController =
+  new UpdateAssignmentController(new UpdateAssignmentUseCase(repo));

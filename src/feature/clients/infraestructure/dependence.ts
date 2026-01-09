@@ -3,8 +3,10 @@ import { CreateClientController } from "./controllers/createClient_controller";
 import { MySQLClientRepositoryImpl } from "./db/MySQLClientRepositoryImpl";
 import { GetAllClientsUseCase } from "../application/usecases/getAllClients_usecase";
 import { GetClientByUuidUseCase } from "../application/usecases/getClientByUuid_usecase";
+import { UpdateClientUseCase } from "../application/usecases/updateClient_usecase";
 import { GetAllClientsController } from "./controllers/getAllClients_controller";
 import { GetClientByUuidController } from "./controllers/getClientByUuid_controller";
+import { UpdateClientController } from "./controllers/updateClient_controller";
 
 const mysqlRepository = new MySQLClientRepositoryImpl();
 const createClientUseCase = new CreateClientUseCase(mysqlRepository);
@@ -15,3 +17,6 @@ export const getAllClientsController = new GetAllClientsController(getAllClients
 
 const getClientByUuidUseCase = new GetClientByUuidUseCase(mysqlRepository);
 export const getClientByUuidController = new GetClientByUuidController(getClientByUuidUseCase);
+
+const updateClientUseCase = new UpdateClientUseCase(mysqlRepository);
+export const updateClientController = new UpdateClientController(updateClientUseCase);

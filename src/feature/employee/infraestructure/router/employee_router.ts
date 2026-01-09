@@ -2,7 +2,8 @@ import { Router } from "express";
 import { 
   createEmployeeController,
   getEmployeeByUuidController,
-  getAllEmployeesController
+  getAllEmployeesController,
+  updateEmployeeController
 } from "../dependence";
 import { authMiddleware } from "../../../auth/infraestructure/middleware/authMiddleware";
 import { adminOnlyMiddleware } from "../../../auth/infraestructure/middleware/adminOnlyMiddleware";
@@ -22,6 +23,11 @@ router.get("/", authMiddleware, (req, res) =>
 // Obtener por UUID
 router.get("/:uuid", authMiddleware, (req, res) =>
   getEmployeeByUuidController.handle(req, res)
+);
+
+// Actualizar por UUID
+router.patch("/:uuid", authMiddleware, adminOnlyMiddleware, (req, res) =>
+  updateEmployeeController.handle(req, res)
 );
 
 export default router;

@@ -5,4 +5,5 @@ export interface ClientRepository {
   findByRFC(rfc: string): Promise<Client | null>;
   findAll(): Promise<Client[]>;
   findByUUID(uuid: string): Promise<Client | null>; 
+  updateByUuid(uuid: string, data: Partial<Client>): Promise<Client>;
 }

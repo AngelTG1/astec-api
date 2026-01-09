@@ -6,4 +6,5 @@ export interface EmployeeRepository {
   findById(id: number): Promise<Employee | null>;
   findAllByClient(clientId: number): Promise<Employee[]>;
   findAll(): Promise<Employee[]>;
+  updateByUuid(uuid: string, data: Partial<Employee>): Promise<Employee>;
 }

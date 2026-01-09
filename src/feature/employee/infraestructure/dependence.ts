@@ -8,6 +8,8 @@ import { GetAllEmployeesController } from "./controllers/getAllEmployees_control
 
 import { CreateEmployeeUseCase } from "../application/usecases/createEmployee_usecase";
 import { CreateEmployeeController } from "./controllers/createEmployee_controller";
+import { UpdateEmployeeUseCase } from "../application/usecases/updateEmployee_usecase";
+import { UpdateEmployeeController } from "./controllers/updateEmployee_controller";
 
 // 🟦 INSTANCIA DEL REPOSITORIO (ESTO FALTABA)
 const mysqlEmployeeRepository = new MySQLEmployeeRepositoryImpl();
@@ -26,3 +28,8 @@ export const getEmployeeByUuidController =
 const getAllEmployeesUseCase = new GetAllEmployeesUseCase(mysqlEmployeeRepository);
 export const getAllEmployeesController =
   new GetAllEmployeesController(getAllEmployeesUseCase);
+
+// 🟦 Actualizar
+const updateEmployeeUseCase = new UpdateEmployeeUseCase(mysqlEmployeeRepository);
+export const updateEmployeeController =
+  new UpdateEmployeeController(updateEmployeeUseCase);

@@ -3,7 +3,8 @@ import {
   createApostamientoController,
   getAllApostamientosController,
   getApostamientoByUuidController,
-  getApostamientosByClientController
+  getApostamientosByClientController,
+  updateApostamientoController
 } from "../dependence";
 import { authMiddleware } from "../../../auth/infraestructure/middleware/authMiddleware";
 import { adminOnlyMiddleware } from "../../../auth/infraestructure/middleware/adminOnlyMiddleware";
@@ -25,6 +26,10 @@ router.get("/:uuid", authMiddleware, adminOnlyMiddleware, (req, res) =>
 
 router.get("/cliente/:clientUuid", authMiddleware, adminOnlyMiddleware, (req, res) =>
   getApostamientosByClientController.handle(req, res)
+);
+
+router.patch("/:uuid", authMiddleware, adminOnlyMiddleware, (req, res) =>
+  updateApostamientoController.handle(req, res)
 );
 
 export default router;

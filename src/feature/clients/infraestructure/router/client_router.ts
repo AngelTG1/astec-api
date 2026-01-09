@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authMiddleware } from "../../../auth/infraestructure/middleware/authMiddleware";
 import { adminOnlyMiddleware } from "../../../auth/infraestructure/middleware/adminOnlyMiddleware";
-import { createClientController, getAllClientsController, getClientByUuidController,  } from "../dependence";
+import { createClientController, getAllClientsController, getClientByUuidController, updateClientController } from "../dependence";
 
 const router = Router();
 
@@ -16,6 +16,10 @@ router.get("/", authMiddleware, (req, res) =>
 
 router.get("/:id", authMiddleware, (req, res) =>
   getClientByUuidController.handle(req, res)
+);
+
+router.patch("/:uuid", authMiddleware, adminOnlyMiddleware, (req, res) =>
+  updateClientController.handle(req, res)
 );
 
 export default router;

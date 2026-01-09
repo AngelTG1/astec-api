@@ -4,11 +4,13 @@ import { CreateApostamientoUseCase } from "../application/usecases/createApostam
 import { GetAllApostamientosUseCase } from "../application/usecases/getAllApostamientos_usecase";
 import { GetApostamientoByUuidUseCase } from "../application/usecases/getApostamientoByUuid_usecase";
 import { GetApostamientosByClientUseCase } from "../application/usecases/getApostamientosByClient_usecase";
+import { UpdateApostamientoUseCase } from "../application/usecases/updateApostamiento_usecase";
 
 import { CreateApostamientoController } from "../infraestructure/controllers/createApostamiento_controller";
 import { GetAllApostamientosController } from "../infraestructure/controllers/getAllApostamientos_controller";
 import { GetApostamientoByUuidController } from "../infraestructure/controllers/getApostamientoByUuid_controller";
 import { GetApostamientosByClientController } from "../infraestructure/controllers/getApostamientosByClient_controller";
+import { UpdateApostamientoController } from "../infraestructure/controllers/updateApostamiento_controller";
 
 const repo = new MySQLApostamientoRepositoryImpl();
 
@@ -27,3 +29,7 @@ export const getApostamientoByUuidController =
 const getByClientUseCase = new GetApostamientosByClientUseCase(repo);
 export const getApostamientosByClientController =
   new GetApostamientosByClientController(getByClientUseCase);
+
+const updateApostamientoUseCase = new UpdateApostamientoUseCase(repo);
+export const updateApostamientoController =
+  new UpdateApostamientoController(updateApostamientoUseCase);
